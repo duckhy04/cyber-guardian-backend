@@ -1,0 +1,44 @@
+package org.example.cyberguardianbackend.services.user.question;
+
+import org.example.cyberguardianbackend.dto.QuestionDto;
+import org.example.cyberguardianbackend.entity.Category;
+import org.example.cyberguardianbackend.entity.Question;
+import org.example.cyberguardianbackend.entity.User;
+import org.example.cyberguardianbackend.enums.QuestionStatus;
+import org.example.cyberguardianbackend.repository.CategoryRepository;
+import org.example.cyberguardianbackend.repository.QuestionRepository;
+import org.example.cyberguardianbackend.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class UserQuestionServiceImpl implements UserQuestionService {
+
+    private final QuestionRepository questionRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+
+    @Autowired
+    public UserQuestionServiceImpl(QuestionRepository questionRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
+        this.questionRepository = questionRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
+    public QuestionDto saveQuestion(QuestionDto questionDto) {
+        Question question = new Question();
+        question.setTitle(questionDto.getTitle());
+        question.setContent(questionDto.getContent());
+
+        User user = userRepository.findById(questionDto.getUserId()).orElseThrow();
+        question.setUser(user);
+
+        Category category = categoryRepository.findById(questionDto.getCategoryId()).orElseThrow();
+        question.setCategory(category);
+
+        question.setQuestionStatus(QuestionStatus.OPEN);
+
+        return questionRepository.save(question).getQuestionDto();
+    }
+}
