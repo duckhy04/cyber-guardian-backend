@@ -1,4 +1,4 @@
-package org.example.cyberguardianbackend.services.admin;
+package org.example.cyberguardianbackend.services.admin.category;
 
 import org.example.cyberguardianbackend.dto.CategoryDto;
 import org.example.cyberguardianbackend.entity.Category;
@@ -17,7 +17,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Category createCategory(CategoryDto categoryDto) {
+    public Category saveCategory(CategoryDto categoryDto) {
         Category category = new Category();
         category.setName(categoryDto.getName());
         category.setDescription(categoryDto.getDescription());

@@ -2,7 +2,7 @@ package org.example.cyberguardianbackend.controller.admin;
 
 import org.example.cyberguardianbackend.dto.CategoryDto;
 import org.example.cyberguardianbackend.entity.Category;
-import org.example.cyberguardianbackend.services.admin.AdminCategoryService;
+import org.example.cyberguardianbackend.services.admin.category.AdminCategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +20,8 @@ public class AdminCategoryController {
     }
 
     @PostMapping("/category")
-    public ResponseEntity<Category> createCategory(@RequestBody CategoryDto categoryDto) {
-        Category category = adminCategoryService.createCategory(categoryDto);
+    public ResponseEntity<Category> addCategory(@RequestBody CategoryDto categoryDto) {
+        Category category = adminCategoryService.saveCategory(categoryDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
