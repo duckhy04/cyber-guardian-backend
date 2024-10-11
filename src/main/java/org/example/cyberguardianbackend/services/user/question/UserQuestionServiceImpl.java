@@ -11,6 +11,9 @@ import org.example.cyberguardianbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserQuestionServiceImpl implements UserQuestionService {
@@ -40,5 +43,10 @@ public class UserQuestionServiceImpl implements UserQuestionService {
         question.setQuestionStatus(QuestionStatus.OPEN);
 
         return questionRepository.save(question).getQuestionDto();
+    }
+
+    public List<QuestionDto> getAllQuestions(){
+        List<Question> questions = questionRepository.findAll();
+        return questions.stream().map(Question::getQuestionDto).collect(Collectors.toList());
     }
 }
