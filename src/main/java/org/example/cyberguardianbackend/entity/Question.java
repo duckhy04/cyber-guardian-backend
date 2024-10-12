@@ -43,6 +43,7 @@ public class Question {
 
     public QuestionDto getQuestionDto(){
         QuestionDto questionDto = new QuestionDto();
+        questionDto.setId(id);
         questionDto.setTitle(title);
         questionDto.setContent(content);
         questionDto.setUserId(user.getId());
