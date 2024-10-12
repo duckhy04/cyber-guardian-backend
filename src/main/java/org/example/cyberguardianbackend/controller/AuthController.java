@@ -46,7 +46,10 @@ public class AuthController {
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+
+        // Thêm vai trò vào token
+        final String jwt = jwtUtil.generateToken(userDetails.getUsername(), optionalUser.map(User::getRole).stream().toList());
+
         if (optionalUser.isPresent()) {
             response.getWriter().write(new JSONObject()
                     .put("userId", optionalUser.get().getId())
@@ -54,7 +57,7 @@ public class AuthController {
                     .toString()
             );
             response.addHeader("Access-Control-Expose-Headers", "Authorization");
-            response.addHeader("Access-Control-Allow-Headers","Authorization, X-PINGOTHER, Origin, " +
+            response.addHeader("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, " +
                     "X-Requested-With, Content-Type, Accept, X-Custom-header");
             response.addHeader(HEADER_STRING, TOKEN_PREFIX + jwt);
         }

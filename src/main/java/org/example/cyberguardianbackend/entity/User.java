@@ -18,6 +18,7 @@ public class User {
 
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @Lob

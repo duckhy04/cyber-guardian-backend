@@ -5,13 +5,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.example.cyberguardianbackend.enums.UserRole;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -19,8 +18,10 @@ public class JwtUtil {
 
     public static final String SECRET = "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
 
-    public String generateToken(String userName) {
+    public String generateToken(String userName, List<UserRole> roles) {
         Map<String, Object> claims = new HashMap<>();
+        List<String> roleStrings = roles.stream().map(Enum::name).toList();
+        claims.put("roles", roleStrings);
         return createToken(claims, userName);
     }
 
@@ -63,4 +64,20 @@ public class JwtUtil {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired (token));
     }
+
+    public List<String> extractRoles(String token) {
+        Object rolesObj = extractClaim(token, claims -> claims.get("roles")); // Extract roles from claims
+        if (rolesObj instanceof List<?>) {
+            // Safely cast to List<String>
+            List<String> roles = new ArrayList<>();
+            for (Object role : (List<?>) rolesObj) {
+                if (role instanceof String) {
+                    roles.add((String) role);
+                }
+            }
+            return roles;
+        }
+        return Collections.emptyList(); // Return an empty list if the object is not a List
+    }
+
 }

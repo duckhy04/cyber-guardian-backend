@@ -28,7 +28,8 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)  // Vô hiệu hóa CSRF vì API sử dụng JWT
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/authenticate", "/sign-up").permitAll()  // Các route này không cần xác thực
-                        .requestMatchers("/api/**").authenticated()  // Các route API yêu cầu xác thực
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")  // Các route API yêu cầu xác thực
+                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")  // Các route API yêu cầu xác thực
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Không sử dụng session, chỉ sử dụng JWT
