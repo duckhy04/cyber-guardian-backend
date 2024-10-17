@@ -46,12 +46,12 @@ public class Question {
         questionDto.setId(id);
         questionDto.setTitle(title);
         questionDto.setContent(content);
-        questionDto.setUserId(user.getId());
         questionDto.setUserName(user.getName());
-        questionDto.setCategoryId(category.getId());
         questionDto.setCategoryName(category.getName());
         questionDto.setQuestionStatus(questionStatus);
         questionDto.setViewsCount(viewsCount);
+        questionDto.setCreatedAt(createdAt);
+        questionDto.setUpdatedAt(updatedAt);
         return questionDto;
     }
 

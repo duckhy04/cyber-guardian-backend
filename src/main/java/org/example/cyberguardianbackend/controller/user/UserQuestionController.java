@@ -17,8 +17,8 @@ public class UserQuestionController {
     private final UserQuestionService userQuestionService;
 
     @PostMapping("/question")
-    public ResponseEntity<QuestionDto> saveQuestion(@RequestBody QuestionDto questionDto) {
-        QuestionDto question = userQuestionService.saveQuestion(questionDto);
+    public ResponseEntity<QuestionDto> addQuestion(@RequestBody QuestionDto questionDto, @RequestParam Long userId, @RequestParam Long categoryId) {
+        QuestionDto question = userQuestionService.addQuestion(questionDto, userId, categoryId);
         return ResponseEntity.status(HttpStatus.CREATED).body(question);
     }
 

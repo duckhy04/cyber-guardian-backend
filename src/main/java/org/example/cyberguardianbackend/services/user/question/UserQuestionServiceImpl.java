@@ -11,6 +11,7 @@ import org.example.cyberguardianbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,18 +30,17 @@ public class UserQuestionServiceImpl implements UserQuestionService {
         this.categoryRepository = categoryRepository;
     }
 
-    public QuestionDto saveQuestion(QuestionDto questionDto) {
+    public QuestionDto addQuestion(QuestionDto questionDto, Long userId, Long categoryId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+
         Question question = new Question();
         question.setTitle(questionDto.getTitle());
         question.setContent(questionDto.getContent());
-
-        User user = userRepository.findById(questionDto.getUserId()).orElseThrow();
         question.setUser(user);
-
-        Category category = categoryRepository.findById(questionDto.getCategoryId()).orElseThrow();
         question.setCategory(category);
-
         question.setQuestionStatus(QuestionStatus.OPEN);
+        question.setCreatedAt(LocalDateTime.now());
 
         return questionRepository.save(question).getQuestionDto();
     }

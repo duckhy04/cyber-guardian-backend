@@ -1,11 +1,10 @@
 package org.example.cyberguardianbackend.services.user.question;
 
 import org.example.cyberguardianbackend.dto.QuestionDto;
-import org.example.cyberguardianbackend.entity.Question;
 
 import java.util.List;
 
 public interface UserQuestionService {
-    QuestionDto saveQuestion(QuestionDto questionDto);
+    QuestionDto addQuestion(QuestionDto questionDto, Long userId, Long categoryId);
     List<QuestionDto> getAllQuestions();
 }
