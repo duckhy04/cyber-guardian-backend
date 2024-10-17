@@ -49,4 +49,9 @@ public class UserQuestionServiceImpl implements UserQuestionService {
         List<Question> questions = questionRepository.findAll();
         return questions.stream().map(Question::getQuestionDto).collect(Collectors.toList());
     }
+
+    public List<QuestionDto> getQuestionsByUserId(Long userId){
+        List<Question> questions = questionRepository.findByUserId(userId);
+        return questions.stream().map(Question::getQuestionDto).collect(Collectors.toList());
+    }
 }

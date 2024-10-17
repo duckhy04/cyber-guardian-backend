@@ -27,4 +27,10 @@ public class UserQuestionController {
         List<QuestionDto> questions = userQuestionService.getAllQuestions();
         return ResponseEntity.status(HttpStatus.OK).body(questions);
     }
+
+    @GetMapping("/user-questions")
+    public ResponseEntity<List<QuestionDto>> getQuestionByUserId(@RequestParam Long userId) {
+        List<QuestionDto> questions = userQuestionService.getQuestionsByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(questions);
+    }
 }
