@@ -40,6 +40,7 @@ public class UserQuestionServiceImpl implements UserQuestionService {
         question.setUser(user);
         question.setCategory(category);
         question.setQuestionStatus(QuestionStatus.OPEN);
+        question.setViewsCount(0L);
         question.setCreatedAt(LocalDateTime.now());
 
         return questionRepository.save(question).getQuestionDto();
