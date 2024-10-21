@@ -34,7 +34,10 @@ public class UserCommentServiceImpl implements UserCommentService {
         Comment comment = new Comment();
         comment.setId(commentDto.getId());
         comment.setText(commentDto.getText());
-        comment.setImage(commentDto.getImage().getBytes());
+
+        // Kiểm tra xem có ảnh trong commentDto hay không
+        comment.setImage(commentDto.getImage() != null && !commentDto.getImage().isEmpty() ? commentDto.getImage().getBytes() : null);
+
         comment.setUser(user);
         comment.setQuestion(question);
         comment.setCreatedAt(LocalDateTime.now());

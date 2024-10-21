@@ -5,10 +5,7 @@ import org.example.cyberguardianbackend.dto.CommentDto;
 import org.example.cyberguardianbackend.services.user.comment.UserCommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -18,7 +15,8 @@ import java.io.IOException;
 public class UserCommentController {
     private final UserCommentService userCommentService;
 
-    public ResponseEntity<CommentDto> saveComment(@RequestBody CommentDto commentDto, @RequestParam Long userId, @RequestParam Long questionId) throws IOException {
+    @PostMapping("/comment")
+    public ResponseEntity<CommentDto> saveComment(@ModelAttribute CommentDto commentDto, @RequestParam Long userId, @RequestParam Long questionId) throws IOException {
         CommentDto comment = userCommentService.saveComment(commentDto, userId, questionId);
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
