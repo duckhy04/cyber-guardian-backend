@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserCommentServiceImpl implements UserCommentService {
@@ -43,5 +45,10 @@ public class UserCommentServiceImpl implements UserCommentService {
         comment.setCreatedAt(LocalDateTime.now());
 
         return commentRepository.save(comment).getCommentDto();
+    }
+
+    public List<CommentDto> getCommentByQuestionId(Long questionId) {
+        List<Comment> comments = commentRepository.findByQuestionId(questionId);
+        return comments.stream().map(Comment::getCommentDto).collect(Collectors.toList());
     }
 }
